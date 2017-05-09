@@ -36,26 +36,38 @@ app.controller("MainCtrl", function ($scope, $log) {
         }
     }
 
+    $scope.handleKeyPress = function(evt) {
+        if(evt.keyCode == 13) { //ENTER KEY
+            $scope.sendChatMessage();
+        }
+    }
+
     function registerEventHandlers() {
         ws.onopen = function () {
             isWsOpen = true;
             // Web Socket is connected, send data using send()
             $scope.chatLog.push({message: "You may start sending messages", type: "info"});
-            $scope.$apply();
+            updateUI();
         };
 
         ws.onmessage = function (evt) {
             var received_msg = evt.data;
             $scope.chatLog.push({message: "THEM: "+evt.data, type: "them-info"});
-            $scope.$apply();
+            updateUI();
         };
 
         ws.onclose = function () {
             isWsOpen = false;
             // websocket is closed.
             $scope.chatLog.push({message: "Connection is closed...", type: "error"});
-            $scope.$apply();
+            updateUI();
         };
+    }
+
+    function updateUI() {
+        $scope.$apply();
+        var ele = angular.element('.chat-window');
+        ele[0].scrollTop = ele[0].scrollHeight;
     }
 
     $scope.clearChat = function() {
