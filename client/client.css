@@ -1,0 +1,15 @@
+.chat-window {
+    border: 2px dashed #555;
+    height: 200px;
+    padding: 10px;
+    overflow-y: auto;
+}
+p.alert {
+    padding: 2px;
+}
+.you-info {
+    text-align: left;
+}
+.them-info {
+    text-align: right;
+}
